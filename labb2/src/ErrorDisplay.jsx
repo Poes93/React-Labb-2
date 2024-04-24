@@ -7,8 +7,8 @@ const ErrorMessage = styled.p`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 10vh; // Full view height to ensure centering works over the full page
-  width: 100%; // Full width
+  height: 10vh; 
+  width: 100%;
 `;
 
 
