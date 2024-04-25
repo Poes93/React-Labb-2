@@ -13,19 +13,24 @@ const Container = styled.div`
   min-height: 100vh;
   width: 100%;
   padding-top: 20px; // Padding at the top of the container
+  position: ${({ hasContent }) => hasContent ? 'static' : 'absolute'};
+  top: 50%;
+  left: 50%;
+  transform: ${({ hasContent }) => hasContent ? 'none' : 'translate(-50%, -50%)'};
 `;
 
 const SearchContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  position: ${({ hasContent }) => hasContent ? 'static' : 'absolute'};
-  top: ${({ hasContent }) => hasContent ? '0' : '50%'};
-  left: ${({ hasContent }) => hasContent ? '0' : '50%'};
-  transform: ${({ hasContent }) => hasContent ? 'none' : 'translate(-50%, -50%)'};
-  transition: all 0.3s ease;
-  z-index: 2; // Make sure it stays above the results
+  position: absolute; // Keep it absolute to allow precise positioning
+  top: ${({ hasContent }) => hasContent ? '45%' : '30%'}; // Start at 50%, move to 30% when there is content
+  left: 50%;
+  transform: translate(-50%, -50%); // Center horizontally and adjust for top offset
+  transition: top 0.3s ease; // Smooth transition for the top property
+  z-index: 1000; // High z-index to keep it on top of other content
 `;
+
 
 const WeatherResultsContainer = styled.div`
   display: flex;
@@ -33,7 +38,7 @@ const WeatherResultsContainer = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px; // Spacing between each result
-  margin-top: 20px; // Space below the search bar, adjust as needed
+  margin-top: 100px; // Adjust this value based on the actual height of your SearchContainer
 `;
 
 function App() {
@@ -47,7 +52,7 @@ function App() {
 
     try {
       const response = await axios.get(url);
-      setWeatherHistory(prevHistory => [response.data, ...prevHistory].slice(0, 5));
+      setWeatherHistory(prevHistory => [response.data, ...prevHistory].slice(0, 10));
       setError('');
       setShowModal(false);
     } catch (err) {
